@@ -12,10 +12,7 @@ async def get_all_users(message: types.Message):
     for user in users:
         id.append(user[0])
         name.append(user[1])
-    data = {
-        "Telegram ID": id,
-        "Name": name
-    }
+    data = {"ID" : id,"Name": name}
     pd.options.display.max_rows = 10000
     df = pd.DataFrame(data)
     if len(df) > 50:
@@ -30,8 +27,11 @@ async def send_ad_to_all(message: types.Message):
     users = db.select_all_users()
     for user in users:
         user_id = user[0]
-        await bot.send_message(chat_id=user_id, text="@BekoDev kanaliga obuna bo'ling!")
-        await asyncio.sleep(0.05)
+        try:
+            await bot.send_message(chat_id=user_id, text="<b>Bot ishga tushdi /start bosib ishlatishingiz mumkin 😊</b>",parse_mode='HTML')
+            await asyncio.sleep(0.05)
+        except Exception:
+            await message.answer(f"<b>{user[1]}</b> botni bloklagani uchun unga xabar bormadi 😭")
 
 @dp.message_handler(text="/cleandb", user_id=ADMINS)
 async def get_all_users(message: types.Message):

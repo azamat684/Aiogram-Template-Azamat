@@ -33,6 +33,11 @@ async def send_ad_to_all(message: types.Message):
         except Exception:
             await message.answer(f"<b>{user[1]}</b> botni bloklagani uchun unga xabar bormadi 😭")
 
+@dp.message_handler(text="/count",user_id = ADMINS)
+async def count(message: types.Message):
+    user_count = db.count_users()[0]
+    await message.answer(f"Bazada <b>{user_count}</b> da foydalanuvchi bor")
+
 @dp.message_handler(text="/cleandb", user_id=ADMINS)
 async def get_all_users(message: types.Message):
     db.delete_users()

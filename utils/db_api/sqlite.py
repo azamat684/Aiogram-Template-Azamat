@@ -2,7 +2,7 @@ import sqlite3
 
 
 class Database:
-    def __init__(self, path_to_db="C:/Users/Kazbek/Desktop/MY AIOGRAM BOTS/Aiogram-Template-Azamat/data/main.db"):
+    def __init__(self, path_to_db="main.db"):
         self.path_to_db = path_to_db
 
     @property

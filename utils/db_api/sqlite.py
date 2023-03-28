@@ -32,7 +32,6 @@ class Database:
         CREATE TABLE Users (
             id int NOT NULL,
             Name varchar(255) NOT NULL,
-            email varchar(255),
             language varchar(3),
             PRIMARY KEY (id)
             );
@@ -46,13 +45,13 @@ class Database:
         ])
         return sql, tuple(parameters.values())
 
-    def add_user(self, id: int, name: str, email: str = None, language: str = 'uz'):
+    def add_user(self, id: int, name: str, language: str = 'uz'):
         # SQL_EXAMPLE = "INSERT INTO Users(id, Name, email) VALUES(1, 'John', 'John@gmail.com')"
 
         sql = """
-        INSERT INTO Users(id, Name, email, language) VALUES(?, ?, ?, ?)
+        INSERT INTO Users(id, Name, language) VALUES(?, ?, ?)
         """
-        self.execute(sql, parameters=(id, name, email, language), commit=True)
+        self.execute(sql, parameters=(id, name,language), commit=True)
 
     def select_all_users(self):
         sql = """
@@ -76,7 +75,7 @@ class Database:
         sql = f"""
         UPDATE Users SET email=? WHERE id=?
         """
-        return self.execute(sql, parameters=(email, id), commit=True)
+        return self.execute(sql, parameters=(id), commit=True)
 
     def delete_users(self):
         self.execute("DELETE FROM Users WHERE TRUE", commit=True)

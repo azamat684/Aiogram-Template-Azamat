@@ -13,9 +13,8 @@ async def get_all_users(message: types.Message):
     id = []
     name = []
     for user in users:
-        id.append(user[0])
         name.append(user[1])
-    data = {"ID" : id,"Name": name}
+    data = {"Name": name}
     pd.options.display.max_rows = 10000
     df = pd.DataFrame(data)
     if len(df) > 50:
@@ -33,19 +32,14 @@ async def optional_ad(message: types.Message, state: FSMContext):
 @dp.message_handler(state=Reklama.optional_reklama)
 async def send_optional_ad(message: types.Message, state: FSMContext):
     users = db.select_all_users()
-    try:
-        for user in users:
-            user_id = user[0]
-            try:
-                await message.send_copy(chat_id=user_id)
-                await asyncio.sleep(0.05)
-            except:
-                pass
-    except Exception as error:
-        print(error)
-    finally:
-        await message.answer(text="Reklama foydalanuvchilarga jo'natildi")
-    await state.finish()
+    for user in users:
+        user_id = user[0]
+        try:
+            await message.send_copy(chat_id=user_id)
+            await asyncio.sleep(0.05)
+        except Exception as excep:
+            await message.answer(f"{user[1]} botni bloklagani uchun unga reklama bormadi")
+
 # @dp.message_handler(text="/reklama", user_id=ADMINS)
 # async def send_ad_to_all(message: types.Message):
 #     users = db.select_all_users()
